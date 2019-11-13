@@ -11,7 +11,8 @@ WORKDIR /microservice
 COPY _python /microservice
 
 RUN cd /microservice/python && \
-    make install
+    make install && \
+    pip uninstall tornado
 
 COPY ./s2i/bin/ /s2i/bin
 
