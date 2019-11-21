@@ -182,6 +182,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
         <version>3.1.0</version>
         <configuration>
           <configLocation>google_checks.xml</configLocation>
+          <suppressionsLocation>
+          checkstyle-suppressions.xml</suppressionsLocation>
           <consoleOutput>true</consoleOutput>
           <failOnViolation>true</failOnViolation>
         </configuration>
