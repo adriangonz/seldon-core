@@ -46,10 +46,13 @@ public class SeldonGraphReadyChecker extends PredictiveUnitImpl {
       logger.info("{} not ready!", state.name);
       return false;
     } else {
-      if (state.children.isEmpty()) return true;
-      else {
+      if (state.children.isEmpty()) {
+        return true;
+      } else {
         for (PredictiveUnitState childState : state.children) {
-          if (!checkReady(childState)) return false;
+          if (!checkReady(childState)) {
+            return false;
+          }
         }
         return true;
       }
@@ -57,8 +60,11 @@ public class SeldonGraphReadyChecker extends PredictiveUnitImpl {
   }
 
   public boolean ready(PredictiveUnitState state) {
-    if (predictorConfig.hasMethod(state)) return pingHost(state.endpoint);
-    else return false;
+    if (predictorConfig.hasMethod(state)) {
+      return pingHost(state.endpoint);
+    } else {
+      return false;
+    }
   }
 
   private boolean pingHost(Endpoint endpoint) {

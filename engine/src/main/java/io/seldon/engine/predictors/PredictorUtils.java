@@ -144,12 +144,6 @@ public class PredictorUtils {
 
     dataBuilder.addAllNames(oldData.getNamesList());
 
-    //		int index=0;
-    //		for (Iterator<String> i = oldData.getFeaturesList().iterator(); i.hasNext();){
-    //			dataBuilder.setFeatures(index, i.next());
-    //			index++;
-    //		}
-
     int rows = (int) newData.countRows();
     int cols = (int) newData.countColumns();
 

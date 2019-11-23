@@ -39,7 +39,9 @@ public class AnnotationsConfig {
       final String value =
           parts[1].substring(1, parts[1].length() - 1); // remove start and end quote
       annotations.put(parts[0], value);
-    } else logger.warn("Failed to parse annotation {}", line);
+    } else {
+      logger.warn("Failed to parse annotation {}", line);
+    }
   }
 
   private void loadAnnotations() {

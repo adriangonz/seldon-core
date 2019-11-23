@@ -52,7 +52,6 @@ public class SeldonService extends SeldonGrpc.SeldonImplBase {
       responseObserver.onError(e);
     } catch (InvalidProtocolBufferException e) {
       responseObserver.onError(e);
-    } finally {
     }
     responseObserver.onCompleted();
   }
@@ -72,7 +71,6 @@ public class SeldonService extends SeldonGrpc.SeldonImplBase {
       responseObserver.onError(e);
     } catch (InvalidProtocolBufferException e) {
       responseObserver.onError(e);
-    } finally {
     }
     responseObserver.onCompleted();
   }

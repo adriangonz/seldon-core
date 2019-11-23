@@ -54,9 +54,10 @@ public class QuantityUtils {
         if (primitive.isString()) {
           Quantity.Builder b = Quantity.newBuilder().setString(primitive.getAsString());
           builder.mergeFrom(b.build().toByteArray());
-        } else
+        } else {
           throw new InvalidProtocolBufferException(
               "Can't decode io.kubernetes.client.proto.resource.Quantity from " + json.toString());
+        }
       }
     }
   }

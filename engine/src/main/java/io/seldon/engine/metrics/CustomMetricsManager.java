@@ -24,8 +24,9 @@ public class CustomMetricsManager {
   public AtomicDouble getGaugeValue(Iterable<Tag> tags, Metric metric) {
     Tags tagsObj = Tags.concat(tags);
     Meter.Id id = new Meter.Id(metric.getKey(), tagsObj, "", "", Type.GAUGE);
-    if (gauges.containsKey(id)) return gauges.get(id);
-    else {
+    if (gauges.containsKey(id)) {
+      return gauges.get(id);
+    } else {
       logger.info("Creating new metric Id for {}", metric.toString());
       try {
         AtomicDouble d = new AtomicDouble();

@@ -62,10 +62,13 @@ public class PredictiveUnitState {
     this.parameters = parameters;
     this.imageName = imageName;
     this.imageVersion = imageVersion;
-    if (!StringUtils.isEmpty(imageName) && !StringUtils.isEmpty(imageVersion))
+    if (!StringUtils.isEmpty(imageName) && !StringUtils.isEmpty(imageVersion)) {
       this.image = imageName + ":" + imageVersion;
-    else if (!StringUtils.isEmpty(imageName)) this.image = imageName;
-    else this.image = "";
+    } else if (!StringUtils.isEmpty(imageName)) {
+      this.image = imageName;
+    } else {
+      this.image = "";
+    }
     this.type = type;
     this.implementation = implementation;
   }

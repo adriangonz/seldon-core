@@ -65,10 +65,11 @@ public class SeldonRestTemplateExchangeTagsProvider implements RestTemplateExcha
 
   public Iterable<Tag> getModelMetrics(PredictiveUnitState state, Map<String, String> customTags) {
     ArrayList<Tag> customTagsList = new ArrayList<>();
-    if (customTags != null)
+    if (customTags != null) {
       for (Map.Entry<String, String> e : customTags.entrySet()) {
         customTagsList.add(Tag.of(e.getKey(), e.getValue()));
       }
+    }
     for (Tag t : getModelMetrics(state)) {
       customTagsList.add(t);
     }
@@ -90,18 +91,22 @@ public class SeldonRestTemplateExchangeTagsProvider implements RestTemplateExcha
   }
 
   private Tag predictorName() {
-    if (!StringUtils.hasText(enginePredictor.getPredictorSpec().getName()))
+    if (!StringUtils.hasText(enginePredictor.getPredictorSpec().getName())) {
       return Tag.of(PREDICTOR_NAME_METRIC, "unknown");
-    else return Tag.of(PREDICTOR_NAME_METRIC, enginePredictor.getPredictorSpec().getName());
+    } else {
+      return Tag.of(PREDICTOR_NAME_METRIC, enginePredictor.getPredictorSpec().getName());
+    }
   }
 
   private Tag predictorVersion() {
-    if (!StringUtils.hasText(enginePredictor.getPredictorSpec().getLabelsOrDefault("version", "")))
+    if (!StringUtils.hasText(
+        enginePredictor.getPredictorSpec().getLabelsOrDefault("version", ""))) {
       return Tag.of(PREDICTOR_VERSION_METRIC, "unknown");
-    else
+    } else {
       return Tag.of(
           PREDICTOR_VERSION_METRIC,
           enginePredictor.getPredictorSpec().getLabelsOrDefault("version", ""));
+    }
   }
 
   private Tag modelName(HttpRequest request) {
@@ -110,7 +115,9 @@ public class SeldonRestTemplateExchangeTagsProvider implements RestTemplateExcha
   }
 
   private Tag modelName(String modelName) {
-    if (!StringUtils.hasText(modelName)) modelName = "unknown";
+    if (!StringUtils.hasText(modelName)) {
+      modelName = "unknown";
+    }
     return Tag.of(MODEL_NAME_METRIC, modelName);
   }
 
@@ -120,7 +127,9 @@ public class SeldonRestTemplateExchangeTagsProvider implements RestTemplateExcha
   }
 
   private Tag modelImage(String modelImage) {
-    if (!StringUtils.hasText(modelImage)) modelImage = "unknown";
+    if (!StringUtils.hasText(modelImage)) {
+      modelImage = "unknown";
+    }
 
     return Tag.of(MODEL_IMAGE_METRIC, modelImage);
   }
@@ -132,7 +141,9 @@ public class SeldonRestTemplateExchangeTagsProvider implements RestTemplateExcha
   }
 
   private Tag modelVersion(String modelVersion) {
-    if (!StringUtils.hasText(modelVersion)) modelVersion = "latest";
+    if (!StringUtils.hasText(modelVersion)) {
+      modelVersion = "latest";
+    }
 
     return Tag.of(MODEL_VERSION_METRIC, modelVersion);
   }

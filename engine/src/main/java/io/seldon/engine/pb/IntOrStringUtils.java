@@ -41,8 +41,11 @@ public class IntOrStringUtils {
     @Override
     public String convert(MessageOrBuilder message) throws IOException {
       IntOrString is = IntOrString.parseFrom(toByteString(message));
-      if (is.hasStrVal()) return "\"" + is.getStrVal() + "\"";
-      else return "" + is.getIntVal();
+      if (is.hasStrVal()) {
+        return "\"" + is.getStrVal() + "\"";
+      } else {
+        return "" + is.getIntVal();
+      }
     }
   }
 
@@ -60,9 +63,10 @@ public class IntOrStringUtils {
               IntOrString.newBuilder().setType(0).setIntVal(primitive.getAsInt());
           builder.mergeFrom(b.build().toByteArray());
         }
-      } else
+      } else {
         throw new InvalidProtocolBufferException(
             "Can't decode io.kubernetes.client.proto.IntOrSting from " + json.toString());
+      }
     }
   }
 }

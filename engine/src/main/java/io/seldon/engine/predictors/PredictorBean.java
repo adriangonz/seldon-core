@@ -59,10 +59,11 @@ public class PredictorBean {
     PredictiveUnit rootUnit = predictorSpec.getGraph();
     Map<String, Container> containersMap = new HashMap<String, Container>();
 
-    for (SeldonPodSpec spec : predictorSpec.getComponentSpecsList())
+    for (SeldonPodSpec spec : predictorSpec.getComponentSpecsList()) {
       for (Container container : spec.getSpec().getContainersList()) {
         containersMap.put(container.getName(), container);
       }
+    }
 
     PredictiveUnitState rootState = new PredictiveUnitState(rootUnit, containersMap);
 

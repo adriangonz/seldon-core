@@ -75,13 +75,17 @@ public class PredictiveUnitBean extends PredictiveUnitImpl {
     Map<String, String> requestPathDict = new ConcurrentHashMap<String, String>();
     Map<String, List<Metric>> metrics = new ConcurrentHashMap<String, List<Metric>>();
     Span activeSpan = null;
-    if (tracing != null && tracing.isActive()) activeSpan = tracing.getTracer().activeSpan();
+    if (tracing != null && tracing.isActive()) {
+      activeSpan = tracing.getTracer().activeSpan();
+    }
     SeldonMessage response =
         predictiveUnitBeanProxy
             .getOutputAsync(request, state, routingDict, requestPathDict, metrics, activeSpan)
             .get();
     List<Metric> metricList = new ArrayList<>();
-    for (List<Metric> mlist : metrics.values()) metricList.addAll(mlist);
+    for (List<Metric> mlist : metrics.values()) {
+      metricList.addAll(mlist);
+    }
     SeldonMessage.Builder builder =
         SeldonMessage.newBuilder(response)
             .setMeta(
@@ -96,7 +100,9 @@ public class PredictiveUnitBean extends PredictiveUnitImpl {
       SeldonMessage msg, PredictiveUnitState state, Map<String, List<Metric>> metrics) {
     if (msg.hasMeta()) {
       addCustomMetrics(msg.getMeta().getMetricsList(), state);
-      if (!metrics.containsKey(state.name)) metrics.putIfAbsent(state.name, new ArrayList<>());
+      if (!metrics.containsKey(state.name)) {
+        metrics.putIfAbsent(state.name, new ArrayList<>());
+      }
       List<Metric> current = metrics.get(state.name);
       current.addAll(msg.getMeta().getMetricsList());
       metrics.put(state.name, current);
@@ -116,8 +122,9 @@ public class PredictiveUnitBean extends PredictiveUnitImpl {
     logger.debug("Calling getOutputAsync");
     String puid = input.getMeta().getPuid();
 
-    if (activeSpan != null && tracing != null)
+    if (activeSpan != null && tracing != null) {
       tracing.getTracer().scopeManager().activate(activeSpan);
+    }
 
     // This element to the request path
     requestPathDict.put(state.name, state.image);
@@ -351,6 +358,7 @@ public class PredictiveUnitBean extends PredictiveUnitImpl {
           timer.record((long) metric.getValue(), TimeUnit.MILLISECONDS);
           break;
         case UNRECOGNIZED:
+        default:
           break;
       }
     }
