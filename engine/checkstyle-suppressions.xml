@@ -4,4 +4,14 @@ suppressions PUBLIC "-//Puppy Crawl//DTD Suppressions 1.1//EN"
 "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
 <suppressions>
   <suppress files="." checks="JavadocMethod" />
+  <suppress files="." checks="SingleLineJavadoc" />
+  <suppress files="." checks="SummaryJavadoc" />
+  <suppress files="." checks="NonEmptyAtClauseDescription" />
+  <suppress files="." checks="AbbreviationAsWordInName" />
+  <suppress files="." checks="EmptyLineSeparator" />
+  <suppress files="." checks="ParameterName" />
+  <suppress files="." checks="MethodName" />
+  <suppress files="." checks="MemberName" />
+  <suppress files="." checks="LocalVariableName" />
+  <suppress files="." checks="OverloadMethodsDeclarationOrder" />
 </suppressions>
