@@ -120,7 +120,7 @@ public class PredictiveUnitBean extends PredictiveUnitImpl {
       throws InterruptedException, ExecutionException, InvalidProtocolBufferException {
 
     logger.debug("Calling getOutputAsync");
-    String puid = input.getMeta().getPuid();
+    final String puid = input.getMeta().getPuid();
 
     if (activeSpan != null && tracing != null) {
       tracing.getTracer().scopeManager().activate(activeSpan);
