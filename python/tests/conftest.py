@@ -26,25 +26,22 @@ def client_gets_metrics(monkeypatch, request):
 
 
 @pytest.fixture
-def rest_app():
-    user_model = EchoModel()
+def rest_client(request):
+    # Make it compatible for both direct and indirect usage
+    user_class = getattr(request, "param", EchoModel)
+
+    user_model = user_class()
     metrics = SeldonMetrics()
+    app = get_rest_microservice(user_model, metrics)
 
-    return get_rest_microservice(user_model, metrics)
-
-
-@pytest.fixture
-def rest_client(rest_app):
-    with rest_app.test_client() as client:
+    with app.test_client() as client:
         yield client
 
 
 @pytest.fixture
 def microservice(request):
     # Make it compatible for both direct and indirect usage
-    opts = {}
-    if hasattr(request, "param"):
-        opts = request.param
+    opts = getattr(request, "param", {})
 
     # Extract opts from request' param
     app_name = opts.get("app_name", "model-template-app")
