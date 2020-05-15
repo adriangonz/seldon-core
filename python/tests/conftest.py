@@ -3,7 +3,10 @@ import pytest
 import logging
 import seldon_core
 
-from .helpers import MicroserviceWrapper
+from seldon_core.metrics import SeldonMetrics
+from seldon_core.wrapper import get_rest_microservice
+
+from .helpers import MicroserviceWrapper, EchoModel
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -20,6 +23,20 @@ def client_gets_metrics(monkeypatch, request):
         seldon_core.seldon_methods, "INCLUDE_METRICS_IN_CLIENT_RESPONSE", value
     )
     return value
+
+
+@pytest.fixture
+def rest_app():
+    user_model = EchoModel()
+    metrics = SeldonMetrics()
+
+    return get_rest_microservice(user_model, metrics)
+
+
+@pytest.fixture
+def rest_test_client(rest_app):
+    with rest_app.test_client() as client:
+        yield client
 
 
 @pytest.fixture

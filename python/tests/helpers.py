@@ -4,6 +4,7 @@ import signal
 import logging
 import time
 
+from seldon_core.user_model import SeldonComponent
 from contextlib import contextmanager
 from subprocess import Popen
 from tenacity import (
@@ -12,6 +13,12 @@ from tenacity import (
     stop_after_attempt,
     retry_if_exception_type,
 )
+
+
+class EchoModel(SeldonComponent):
+    def predict(self, X, features_names):
+        logging.info("Predict called")
+        return X
 
 
 class MicroserviceWrapper:
