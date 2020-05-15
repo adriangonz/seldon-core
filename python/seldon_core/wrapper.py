@@ -1,6 +1,6 @@
 import grpc
 from concurrent import futures
-from flask import jsonify, Flask, send_from_directory, request, Response
+from flask import Flask, send_from_directory, request, Response
 from flask_cors import CORS
 import logging
 from seldon_core.utils import seldon_message_to_json, json_to_feedback
@@ -9,6 +9,7 @@ import seldon_core.seldon_methods
 from seldon_core.flask_utils import (
     SeldonMicroserviceException,
     ANNOTATION_GRPC_MAX_MSG_SIZE,
+    to_json_response,
 )
 from seldon_core.proto import prediction_pb2_grpc
 import os
@@ -35,7 +36,7 @@ def get_rest_microservice(user_model, seldon_metrics):
 
     @app.errorhandler(SeldonMicroserviceException)
     def handle_invalid_usage(error):
-        response = jsonify(error.to_dict())
+        response = to_json_response(error.to_dict())
         logger.error("%s", error.to_dict())
         response.status_code = error.status_code
         return response
@@ -53,7 +54,7 @@ def get_rest_microservice(user_model, seldon_metrics):
         response = seldon_core.seldon_methods.predict(
             user_model, requestJson, seldon_metrics
         )
-        json_response = jsonify(response)
+        json_response = to_json_response(response)
         if "status" in response and "code" in response["status"]:
             json_response.status_code = response["status"]["code"]
 
@@ -72,7 +73,7 @@ def get_rest_microservice(user_model, seldon_metrics):
             user_model, requestProto, PRED_UNIT_ID
         )
         jsonDict = seldon_message_to_json(responseProto)
-        return jsonify(jsonDict)
+        return to_json_response(jsonDict)
 
     @app.route("/transform-input", methods=["GET", "POST"])
     def TransformInput():
@@ -82,7 +83,7 @@ def get_rest_microservice(user_model, seldon_metrics):
             user_model, requestJson, seldon_metrics
         )
         logger.debug("REST Response: %s", response)
-        return jsonify(response)
+        return to_json_response(response)
 
     @app.route("/transform-output", methods=["GET", "POST"])
     def TransformOutput():
@@ -92,7 +93,7 @@ def get_rest_microservice(user_model, seldon_metrics):
             user_model, requestJson, seldon_metrics
         )
         logger.debug("REST Response: %s", response)
-        return jsonify(response)
+        return to_json_response(response)
 
     @app.route("/route", methods=["GET", "POST"])
     def Route():
@@ -102,7 +103,7 @@ def get_rest_microservice(user_model, seldon_metrics):
             user_model, requestJson, seldon_metrics
         )
         logger.debug("REST Response: %s", response)
-        return jsonify(response)
+        return to_json_response(response)
 
     @app.route("/aggregate", methods=["GET", "POST"])
     def Aggregate():
@@ -112,7 +113,7 @@ def get_rest_microservice(user_model, seldon_metrics):
             user_model, requestJson, seldon_metrics
         )
         logger.debug("REST Response: %s", response)
-        return jsonify(response)
+        return to_json_response(response)
 
     @app.route("/health/ping", methods=["GET"])
     def HealthPing():
@@ -126,7 +127,7 @@ def get_rest_microservice(user_model, seldon_metrics):
         logger.debug("REST Health Status Request")
         response = seldon_core.seldon_methods.health_status(user_model, seldon_metrics)
         logger.debug("REST Health Status Response: %s", response)
-        return jsonify(response)
+        return to_json_response(response)
 
     @app.route("/metadata", methods=["GET"])
     def Metadata():
@@ -141,7 +142,7 @@ def get_rest_microservice(user_model, seldon_metrics):
             )
         logger.debug("REST Metadata Request")
         logger.debug("REST Metadata Response: %s", metadata_data)
-        return jsonify(metadata_data)
+        return to_json_response(metadata_data)
 
     return app
 

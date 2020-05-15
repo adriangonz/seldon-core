@@ -1,7 +1,8 @@
-from flask import request
 import json
-from typing import Dict
 import base64
+
+from flask import request, jsonify
+from typing import Dict
 
 
 def get_multi_form_data_request() -> Dict:
@@ -67,6 +68,16 @@ def get_request() -> Dict:
     if message is None:
         raise SeldonMicroserviceException("Invalid Data Format - empty JSON")
     return message
+
+
+def to_json_response(response):
+    """
+    Converts response to a JSON response using Flask's `jsonify`.
+    It also escapes any content to make sure we don't send back raw HTML
+    characters.
+    """
+    flask_response = jsonify(response)
+    return flask_response
 
 
 class SeldonMicroserviceException(Exception):
