@@ -34,7 +34,7 @@ def rest_app():
 
 
 @pytest.fixture
-def rest_test_client(rest_app):
+def rest_client(rest_app):
     with rest_app.test_client() as client:
         yield client
 

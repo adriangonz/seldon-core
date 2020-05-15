@@ -12,9 +12,9 @@ import requests
         )
     ],
 )
-def test_escape_html(rest_test_client, key, payload, expected):
+def test_escape_html(rest_client, key, payload, expected):
     data = {key: payload}
-    response = rest_test_client.post("/predict", json=data)
+    response = rest_client.post("/predict", json=data)
     response = response.get_json()
 
     escaped = response[key]
