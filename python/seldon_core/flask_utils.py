@@ -76,8 +76,8 @@ def to_json_response(response):
     It also escapes any content to make sure we don't send back raw HTML
     characters.
     """
-    flask_response = jsonify(response)
-    return flask_response
+    json_response = jsonify(response)
+    return json_response
 
 
 class SeldonMicroserviceException(Exception):
