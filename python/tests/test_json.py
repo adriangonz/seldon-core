@@ -27,9 +27,18 @@ def test_escape_html(rest_client, key, payload, expected):
     "payload, expected",
     [
         (
+            {"strData": '<div class="div-class"></div>'},
+            '{"strData": "\\u003cdiv class=\\"div-class\\"\\u003e\\u003c/div\\u003e"}',
+        ),
+        (
             '<div class="div-class"></div>',
-            '\\u003cdiv class\\u003d"div-class"\\u003e\\u003c/div\\u003e',
-        )
+            '\\u003cdiv class=\\"div-class\\"\\u003e\\u003c/div\\u003e',
+        ),
+        (
+            {"jsonData": {"someHTML": '<div class="div-class"></div>'}},
+            '{"jsonData": {"someHTML": "\\u003cdiv class=\\"div-class\\"\\u003e\\u003c/div\\u003e"}}',
+        ),
+        ({"data": {"ndarray": [0, 1, 2]}}, '{"data": {"ndarray": [0, 1, 2]}}',),
     ],
 )
 def test_htmlescape_dumps(payload, expected):

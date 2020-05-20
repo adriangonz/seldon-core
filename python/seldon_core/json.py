@@ -12,15 +12,10 @@ class JSONEncoderForHTML(JSONEncoder):
     """
 
     def default(self, o):
-        print("heeelloooooo")
-        breakpoint()
-        # Let the base class default method raise the TypeError
         return super().default(o)
 
-    def iterencode(self, o):
-        print("heeelloooooo")
-        breakpoint()
-        chunks = super(JSONEncoderForHTML, self).iterencode(o)
+    def iterencode(self, o, _one_shot=False):
+        chunks = super().iterencode(o, _one_shot)
         for chunk in chunks:
             chunk = chunk.replace("&", "\\u0026")
             chunk = chunk.replace("<", "\\u003c")
@@ -39,7 +34,5 @@ def htmlescape_dumps(o, **kwargs):
     in the JSON output are escaped, to prevent XSS injections.
     https://github.com/SeldonIO/seldon-core/issues/837
     """
-    print("heeelloooooo")
-    #  kwargs["cls"] = JSONEncoderForHTML
-    breakpoint()
-    return dumps(o, cls=JSONEncoderForHTML)
+    kwargs["cls"] = JSONEncoderForHTML
+    return dumps(o, **kwargs)
