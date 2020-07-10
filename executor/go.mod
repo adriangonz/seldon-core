@@ -6,6 +6,7 @@ require (
 	github.com/cloudevents/sdk-go v1.2.0
 	github.com/ghodss/yaml v1.0.0
 	github.com/go-logr/logr v0.1.0
+	github.com/go-logr/zapr v0.1.0
 	github.com/golang/protobuf v1.4.2
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/mux v1.7.4
@@ -27,7 +28,6 @@ require (
 	k8s.io/api v0.17.2
 	k8s.io/apimachinery v0.17.2
 	k8s.io/client-go v0.17.2
-	sigs.k8s.io/controller-runtime v0.5.0
 )
 
 replace github.com/tensorflow/tensorflow/tensorflow/go/core => ./proto/tensorflow/core
